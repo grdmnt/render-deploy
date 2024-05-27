@@ -14,6 +14,7 @@ export default class Action {
     try {
       const serviceId = core.getInput('service_id', {required: true})
       const apiKey = core.getInput('api_key', {required: true})
+      const branchName = core.getInput('branch_name')
       const clearCache = core.getBooleanInput('clear_cache')
       const waitDeploy = core.getBooleanInput('wait_deploy')
 
@@ -26,6 +27,8 @@ export default class Action {
 
       const renderService = new RenderService({apiKey, serviceId})
       const githubService = new GitHubService({githubToken, owner, repo})
+
+      await renderService.updateServiceBranch({branchName})
 
       const deployId = await renderService.triggerDeploy({clearCache})
       let serviceUrl = ''

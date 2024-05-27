@@ -1,5 +1,5 @@
 name: 'Deploy to Render'
-description: 'Deploy your Render app through GitHub Actions'
+description: 'Deploy your Render app through GitHub Actions with an additiional branch update step'
 author: 'JorgeLNJunior'
 inputs:
   service_id:
@@ -8,6 +8,9 @@ inputs:
   api_key:
     required: true
     description: 'Render api key'
+  branch_name:
+    required: true
+    description: 'Branch name'
   clear_cache:
     required: false
     default: 'false'

@@ -37,6 +37,19 @@ export class RenderService {
   }
 
   /**
+   * Updates service branch
+   *
+   * @param {DeployOptions} options - The options for the deploy.
+   * @return {Promise<string>} - A string representing the ID of the deploy.
+   */
+  async updateServiceBranch(options: DeployOptions): Promise<string> {
+    const response = await this.client.patch('/', {
+      branch: options.branchName
+    })
+    return response.data.id as string
+  }
+
+  /**
    * Retrieves the service URL. Suports custom domains.
    *
    * @return {Promise<string>} The service URL.
