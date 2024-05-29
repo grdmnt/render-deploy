@@ -36,6 +36,8 @@ export default class Action {
 
       core.info(`Updated service branch: ${updateResponse}.`)
 
+      return;
+
       const deployId = await renderService.triggerDeploy({clearCache})
       let serviceUrl = ''
       let deploymentId = 0
