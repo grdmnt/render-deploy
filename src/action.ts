@@ -12,6 +12,7 @@ import {
 export default class Action {
   async run(): Promise<void> {
     try {
+      fail;
       core.info('Starting deployment')
       const serviceId = core.getInput('service_id', {required: true})
       const apiKey = core.getInput('api_key', {required: true})
