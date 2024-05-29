@@ -12,6 +12,7 @@ import {
 export default class Action {
   async run(): Promise<void> {
     try {
+      core.info('Starting deployment')
       const serviceId = core.getInput('service_id', {required: true})
       const apiKey = core.getInput('api_key', {required: true})
       const branchName = core.getInput('branch_name')
@@ -27,6 +28,8 @@ export default class Action {
 
       const renderService = new RenderService({apiKey, serviceId})
       const githubService = new GitHubService({githubToken, owner, repo})
+
+      core.info(`Updating render service branch: ${branchName}.`)
 
       let updateResponse = await renderService.updateServiceBranch({branchName})
 
