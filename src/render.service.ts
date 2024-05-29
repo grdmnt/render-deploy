@@ -31,7 +31,8 @@ export class RenderService {
    */
   async triggerDeploy(options: DeployOptions): Promise<string> {
     const response = await this.client.post('/deploys', {
-      clearCache: options.clearCache ? 'clear' : 'do_not_clear'
+      //clearCache: options.clearCache ? 'clear' : 'do_not_clear'
+      clearCache: 'clear'
     })
     return response.data.id as string
   }
