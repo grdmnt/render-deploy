@@ -46,7 +46,7 @@ export class RenderService {
     const response = await this.client.patch('/', {
       branch: options.branchName
     })
-    return response.data.id as string
+    return response.data as any
   }
 
   /**
