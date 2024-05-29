@@ -63,7 +63,9 @@ class Action {
                 const renderService = new render_service_1.RenderService({ apiKey, serviceId });
                 const githubService = new github_service_1.GitHubService({ githubToken, owner, repo });
                 core.info(`Updating render service branch: ${branchName}.`);
-                let updateResponse = yield renderService.updateServiceBranch({ branchName });
+                const updateResponse = yield renderService.updateServiceBranch({
+                    branchName
+                });
                 core.info(`Updated service branch: ${updateResponse}.`);
                 const deployId = yield renderService.triggerDeploy({ clearCache });
                 let serviceUrl = '';
@@ -268,7 +270,7 @@ class RenderService {
     triggerDeploy(options) {
         return __awaiter(this, void 0, void 0, function* () {
             const response = yield this.client.post('/deploys', {
-                clearCache: 'clear'
+                clearCache: options.clearCache ? 'clear' : 'do_not_clear'
             });
             return response.data.id;
         });
@@ -278,7 +280,7 @@ class RenderService {
             const response = yield this.client.patch('/', {
                 branch: options.branchName
             });
-            return response.data;
+            return response.data.branch;
         });
     }
     getServiceUrl() {
