@@ -31,8 +31,7 @@ export class RenderService {
    */
   async triggerDeploy(options: DeployOptions): Promise<string> {
     const response = await this.client.post('/deploys', {
-      //clearCache: options.clearCache ? 'clear' : 'do_not_clear'
-      clearCache: 'clear'
+      clearCache: options.clearCache ? 'clear' : 'do_not_clear'
     })
     return response.data.id as string
   }
@@ -47,7 +46,7 @@ export class RenderService {
     const response = await this.client.patch('/', {
       branch: options.branchName
     })
-    return response.data as any
+    return response.data
   }
 
   /**
@@ -78,6 +77,7 @@ export class RenderService {
 interface DeployOptions {
   /** Clear build cache. */
   clearCache?: boolean
+  branchName?: string
 }
 
 interface RenderOptions {

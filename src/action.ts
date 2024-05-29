@@ -12,13 +12,12 @@ import {
 export default class Action {
   async run(): Promise<void> {
     try {
-      fail;
       core.info('Starting deployment')
       const serviceId = core.getInput('service_id', {required: true})
       const apiKey = core.getInput('api_key', {required: true})
       const branchName = core.getInput('branch_name')
       const clearCache = core.getBooleanInput('clear_cache')
-      const waitDeploy = true;//core.getBooleanInput('wait_deploy')
+      const waitDeploy = core.getBooleanInput('wait_deploy')
 
       const createGithubDeployment = core.getBooleanInput('github_deployment')
       const githubToken = core.getInput('github_token')
@@ -32,11 +31,11 @@ export default class Action {
 
       core.info(`Updating render service branch: ${branchName}.`)
 
-      let updateResponse = await renderService.updateServiceBranch({branchName})
+      const updateResponse = await renderService.updateServiceBranch({
+        branchName
+      })
 
       core.info(`Updated service branch: ${updateResponse}.`)
-
-      return;
 
       const deployId = await renderService.triggerDeploy({clearCache})
       let serviceUrl = ''

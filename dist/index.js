@@ -49,8 +49,10 @@ class Action {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                core.info('Starting deployment');
                 const serviceId = core.getInput('service_id', { required: true });
                 const apiKey = core.getInput('api_key', { required: true });
+                const branchName = core.getInput('branch_name');
                 const clearCache = core.getBooleanInput('clear_cache');
                 const waitDeploy = core.getBooleanInput('wait_deploy');
                 const createGithubDeployment = core.getBooleanInput('github_deployment');
@@ -60,6 +62,9 @@ class Action {
                 const ref = process.env.GITHUB_REF;
                 const renderService = new render_service_1.RenderService({ apiKey, serviceId });
                 const githubService = new github_service_1.GitHubService({ githubToken, owner, repo });
+                core.info(`Updating render service branch: ${branchName}.`);
+                let updateResponse = yield renderService.updateServiceBranch({ branchName });
+                core.info(`Updated service branch: ${updateResponse}.`);
                 const deployId = yield renderService.triggerDeploy({ clearCache });
                 let serviceUrl = '';
                 let deploymentId = 0;
@@ -263,9 +268,17 @@ class RenderService {
     triggerDeploy(options) {
         return __awaiter(this, void 0, void 0, function* () {
             const response = yield this.client.post('/deploys', {
-                clearCache: options.clearCache ? 'clear' : 'do_not_clear'
+                clearCache: 'clear'
             });
             return response.data.id;
+        });
+    }
+    updateServiceBranch(options) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const response = yield this.client.patch('/', {
+                branch: options.branchName
+            });
+            return response.data;
         });
     }
     getServiceUrl() {
