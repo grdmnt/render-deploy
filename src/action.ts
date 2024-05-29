@@ -16,7 +16,7 @@ export default class Action {
       const apiKey = core.getInput('api_key', {required: true})
       const branchName = core.getInput('branch_name')
       const clearCache = core.getBooleanInput('clear_cache')
-      const waitDeploy = core.getBooleanInput('wait_deploy')
+      const waitDeploy = true;//core.getBooleanInput('wait_deploy')
 
       const createGithubDeployment = core.getBooleanInput('github_deployment')
       const githubToken = core.getInput('github_token')
